@@ -1,0 +1,30 @@
+name: Mac App Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Kodu indir
+      uses: actions/checkout@v4
+
+    - name: Python kur
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: PyInstaller kur
+      run: pip install pyinstaller
+
+    - name: APP oluştur
+      run: pyinstaller --onefile --windowed mobilya-mac.py
+
+    - name: Dosyayı kaydet
+      uses: actions/upload-artifact@v4
+      with:
+        name: mac-app
+        path: dist/*
